@@ -8,14 +8,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.project.model.User;
 
-public class Users implements MatchInterface {
+@Repository
+public class MatchImplUsers implements IMatch {
 	
 	private static SessionFactory factory;
 	
-	public Users() {
+	public MatchImplUsers() {
 		try{
 			Configuration configuration = new Configuration().configure();
 			StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());

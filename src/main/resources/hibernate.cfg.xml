@@ -25,7 +25,9 @@
 
    <!-- List of XML mapping files -->
    <!-- <mapping resource="user.hbm.xml"/> -->
-   <mapping class="com.game.services.UserInfo"/>
+   <mapping class="com.project.service.MatchImplUsers"/>
+   <mapping class="com.project.model.User"/>
+   <!-- <mapping class="com.project.model.Questions"/> -->
 
 </session-factory>
 </hibernate-configuration>

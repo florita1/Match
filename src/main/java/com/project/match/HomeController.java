@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.project.model.User;
-import com.project.service.MatchInterface;
+import com.project.service.MatchImplAnswers;
+import com.project.service.IMatch;
+import com.project.service.MatchImplUsers;
 
 /**
  * Handles requests for the application home page.
@@ -32,7 +34,10 @@ public class HomeController {
 	 */
 	
 	@Autowired
-	private MatchInterface MatchInter;
+	private MatchImplUsers user;
+	
+//	@Autowired
+//	private MatchImplAnswers answer;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home( Locale locale, Model model) {
@@ -63,10 +68,12 @@ public class HomeController {
 		String uName = request.getParameter("userName");
 		int age = Integer.parseInt(request.getParameter("age"));
 		String email = request.getParameter("email");
-		String pass = request.getParameter("password");
+		String pass = request.getParameter("passWord");
 		
-		User user = new User(fName,lName,uName,age,email,pass);
-		MatchInter.registerUser(user);
+		System.out.println(fName+lName+uName+age+email+pass);
+		
+		User use = new User(fName,lName,uName,age,email,pass);
+		user.registerUser(use);
 		model.addAttribute("message", fName );
 		
 		return "registered";
@@ -86,7 +93,7 @@ public class HomeController {
 		String name = request.getParameter("userName");
 		String pass = request.getParameter("passWord");
 		
-		String passDB = MatchInter.getPassword(name);
+		String passDB = user.getPassword(name);
 		
 		String message = "";
 		if(passDB.equals(pass)) {

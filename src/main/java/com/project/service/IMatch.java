@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.project.model.User;
 
-public interface MatchInterface {
+public interface IMatch {
 
 	// Method to register a user to the database
 	public void registerUser(User user);

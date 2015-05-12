@@ -21,9 +21,13 @@ public class User {
 	private String first_name; 
 	
 	@Column(name="last_name")
-	private String last_name;  
+	private String last_name;
+	
+	@Column(name="age")
 	private int age;
+	@Column(name="email")
 	private String email;  
+	@Column(name="password")
 	private String password;
 
 	public User() {}

@@ -10,11 +10,11 @@ import org.hibernate.cfg.Configuration;
 
 import com.project.model.User;
 
-public class Answers implements MatchInterface{
+public class MatchImplAnswers implements IMatch{
 	
 	private static SessionFactory factory;
 	
-	public Answers() {
+	public MatchImplAnswers() {
 		try{
 	    	  Configuration configuration = new Configuration().configure();
 	    	  StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
