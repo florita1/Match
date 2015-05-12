@@ -25,7 +25,7 @@ private static SessionFactory factory;
 	
 	public List getQuestions() {
 		Session session = factory.openSession();
-		List questions = session.createQuery("FROM Questions").list();
+		List questions = session.createQuery("FROM QuestionnaireTable").list();
 		session.close();
 		return questions;
 	}

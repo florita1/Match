@@ -2,7 +2,9 @@ package com.project.match;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +18,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.project.model.Questions;
 import com.project.model.User;
 import com.project.service.MatchImplAnswers;
 import com.project.service.IMatch;
 import com.project.service.MatchImplUsers;
+import com.project.service.Questionnaire;
 
 /**
  * Handles requests for the application home page.
@@ -36,8 +40,10 @@ public class HomeController {
 	@Autowired
 	private MatchImplUsers user;
 	
-//	@Autowired
-//	private MatchImplAnswers answer;
+	@Autowired
+	private MatchImplAnswers answer;
+	
+	private int numOfQ;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home( Locale locale, Model model) {
@@ -77,6 +83,44 @@ public class HomeController {
 		model.addAttribute("message", fName );
 		
 		return "registered";
+	}
+	
+	@RequestMapping(value = "/questionnaire", method = RequestMethod.GET)
+	public String questionnaire(Model model) {
+		logger.info("User is answering questionnaire.");
+		Questionnaire ques = new Questionnaire();
+		List questions = ques.getQuestions();
+		numOfQ = questions.size();
+		model.addAttribute("questionList", questions);
+		
+		return "questionnaire";
+	}
+	
+	@RequestMapping(value = "/profile", method = RequestMethod.POST)
+	public String submitQuestionnaire(Model model, HttpServletRequest request) {
+		logger.info("User answered questionnaire.");
+		List<Boolean> answers = new ArrayList<Boolean>();
+		for(int x = 1; x <= numOfQ; x++) {
+			String answer = request.getParameter(Integer.toString(x));
+			if(answer.equals("y")) {
+				answers.add(true);
+			} else {
+				answers.add(false);
+			}
+		}
+		Questions q = new Questions(answers, 2);
+		answer.setAnswers(q);
+		return "profile";
+	}
+	
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public String viewProfile(Model model) {
+		logger.info("User answered questionnaire.");
+		Questionnaire ques = new Questionnaire();
+		List questions = ques.getQuestions();
+		model.addAttribute("questionList", questions);
+		
+		return "profile";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)

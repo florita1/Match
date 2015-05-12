@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import com.project.model.Questions;
 import com.project.model.User;
 
 public class MatchImplAnswers implements IMatch{
@@ -43,7 +44,7 @@ public class MatchImplAnswers implements IMatch{
 
 	public List getAnswers(int userId) {
 		Session session = factory.openSession();
-		String hql = "SELECT answer FROM Questions WHERE id = :uid";
+		String hql = "FROM Questions WHERE id = :uid";
 		Query query = session.createQuery(hql);
 		query.setParameter("uid", userId);
 		List answers = query.list();
@@ -52,8 +53,10 @@ public class MatchImplAnswers implements IMatch{
 	}
 	
 	@Override
-	public void setAnswers(int id, List answers) {
-		// TODO Auto-generated method stub
+	public void setAnswers(Questions answers) {
+		Session session = factory.openSession();
+		session.save(answers);
+		session.close();
 		
 	}
 

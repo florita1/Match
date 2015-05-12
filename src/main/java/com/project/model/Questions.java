@@ -19,7 +19,10 @@ public class Questions {
 	@Column(name="answers")
 	private List<Boolean> answers; 
 	
-	public Questions() {}
+	public Questions(List<Boolean> answers, int id) {
+		this.answers = answers;
+		this.id = id;
+	}
 
 	public List<Boolean> getAnswers() {
 		return answers;

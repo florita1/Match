@@ -27,6 +27,7 @@
    <!-- <mapping resource="user.hbm.xml"/> -->
    <mapping class="com.project.service.MatchImplUsers"/>
    <mapping class="com.project.model.User"/>
+   <mapping class="com.project.model.QuestionnaireTable"/>
    <!-- <mapping class="com.project.model.Questions"/> -->
 
 </session-factory>

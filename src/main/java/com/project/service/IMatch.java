@@ -2,6 +2,7 @@ package com.project.service;
 
 import java.util.List;
 
+import com.project.model.Questions;
 import com.project.model.User;
 
 public interface IMatch {
@@ -22,7 +23,7 @@ public interface IMatch {
 	public List getAllUsers();
 
 	// Method to add user answers to table
-	public void setAnswers(int id, List answers);
+	public void setAnswers(Questions userAnswers);
 
 	// Method to get a users answers
 	public List getAnswers(int id);

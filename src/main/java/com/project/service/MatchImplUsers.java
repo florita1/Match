@@ -11,6 +11,7 @@ import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import com.project.model.Questions;
 import com.project.model.User;
 
 @Repository
@@ -76,7 +77,7 @@ public class MatchImplUsers implements IMatch {
 	}
 
 	@Override
-	public void setAnswers(int id, List answers) {
+	public void setAnswers(Questions userAnswers) {
 		// TODO Auto-generated method stub
 		
 	}

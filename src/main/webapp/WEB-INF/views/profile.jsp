@@ -6,6 +6,6 @@
 	<link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
-	<p>Thank you for registering, please answers this questionnaire <a href="/match/questionnaire">here</a>.</p>
+	Thank you answering our questions, please visit your profile <a href="/match/profile">here</a>.
 </body>
 </html>
