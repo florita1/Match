@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
@@ -34,8 +35,26 @@ public class MatchImplUsers implements IMatch {
 	@Override
 	public void registerUser(User user) {
 		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
 		session.save(user);
+		tx.commit();
 		session.close();
+	}
+	
+	@Override
+	public int getId(String name) {
+		Session session = factory.openSession();
+		String hql = "SELECT id FROM User WHERE user_name= :name";
+		Query query = session.createQuery(hql);
+		query.setParameter("name",name);
+		List pass = query.list();
+		int id = 0;
+		for (Iterator iterator = pass.iterator(); iterator.hasNext();){
+			id = (int) iterator.next();
+		}
+		session.close();
+		
+		return id;
 	}
 	
 	@Override
@@ -65,7 +84,9 @@ public class MatchImplUsers implements IMatch {
 	@Override
 	public void editUser(User user) {
 		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
 		session.update(user);
+		tx.commit();
 		session.close();
 	}
 

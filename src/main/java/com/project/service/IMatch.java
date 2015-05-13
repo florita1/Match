@@ -13,6 +13,9 @@ public interface IMatch {
 	// Method to get a specific user profile
 	public User getUser(int id);
 	
+	// Method to get user id from username
+	public int getId(String name);
+	
 	// Method to get password to verify login
 	public String getPassword(String name);
 

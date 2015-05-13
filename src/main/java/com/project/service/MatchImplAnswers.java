@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
@@ -55,7 +56,9 @@ public class MatchImplAnswers implements IMatch{
 	@Override
 	public void setAnswers(Questions answers) {
 		Session session = factory.openSession();
+		Transaction tx = session.beginTransaction();
 		session.save(answers);
+		tx.commit();
 		session.close();
 		
 	}
@@ -87,6 +90,12 @@ public class MatchImplAnswers implements IMatch{
 	public String getPassword(String name) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getId(String name) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

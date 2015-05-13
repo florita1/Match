@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,14 +49,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home( Locale locale, Model model) {
 		logger.info("Client is at home.");
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+						
 		return "home";
 	}
 	
@@ -80,6 +74,10 @@ public class HomeController {
 		
 		User use = new User(fName,lName,uName,age,email,pass);
 		user.registerUser(use);
+		HttpSession userSession = request.getSession();
+		int userId = user.getId(uName);
+		userSession.setAttribute("userName", uName);
+		userSession.setAttribute("userId", userId);
 		model.addAttribute("message", fName );
 		
 		return "registered";
@@ -96,35 +94,43 @@ public class HomeController {
 		return "questionnaire";
 	}
 	
-	@RequestMapping(value = "/profile", method = RequestMethod.POST)
+	@RequestMapping(value = "/submitAnswers", method = RequestMethod.POST)
 	public String submitQuestionnaire(Model model, HttpServletRequest request) {
 		logger.info("User answered questionnaire.");
-		List<Boolean> answers = new ArrayList<Boolean>();
+		HttpSession userSession = request.getSession();
+		int userId = (int) userSession.getAttribute("userId");
+		List<String> answers = new ArrayList<String>();
 		for(int x = 1; x <= numOfQ; x++) {
 			String answer = request.getParameter(Integer.toString(x));
-			if(answer.equals("y")) {
-				answers.add(true);
-			} else {
-				answers.add(false);
-			}
+			answers.add(answer);
+//			if(answer.equals("y")) {
+//				answers.add(true);
+//			} else {
+//				answers.add(false);
+//			}
 		}
-		Questions q = new Questions(answers, 2);
+		Questions q = new Questions(answers,userId);
 		answer.setAnswers(q);
-		return "profile";
+		return "submitAnswers";
 	}
 	
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
-	public String viewProfile(Model model) {
-		logger.info("User answered questionnaire.");
-		Questionnaire ques = new Questionnaire();
-		List questions = ques.getQuestions();
-		model.addAttribute("questionList", questions);
-		
+	public String viewProfile(Model model, HttpServletRequest request) {
+		logger.info("User is at their profile.");
+		HttpSession userSession = request.getSession();
+		int userId = (int) userSession.getAttribute("userId");
+		List answers = answer.getAnswers(userId);
+		User userInfo = user.getUser(userId);
+		String fName = userInfo.getFirst_name();
+		String lName = userInfo.getLast_name();
+		int age = userInfo.getAge();
+		model.addAttribute("userInfo", fName+lName+age);
+		model.addAttribute("answerList", answers);
 		return "profile";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login( Model model) {
+	public String login( Model model, HttpServletRequest request) {
 		logger.info("User is logging in");
 		
 		return "login";
@@ -133,7 +139,15 @@ public class HomeController {
 	@RequestMapping(value = "/thankyou", method = RequestMethod.POST)
 	public String thankyou( HttpServletRequest request, Locale locale, Model model ) throws SQLException {
 		logger.info("User is logging in.");
+		HttpSession userSession = request.getSession();
+		if(userSession.isNew()) {
+			//please log in again
+		} else {
+			//user is logged in
+		}
 		
+		String id = userSession.getId();
+
 		String name = request.getParameter("userName");
 		String pass = request.getParameter("passWord");
 		
@@ -146,7 +160,9 @@ public class HomeController {
 		} else {
 			message = "Login failed. Please try logging in again <a href='/match/login'> here</a>.";
 		}
-		
+		int userId = user.getId(name);
+		userSession.setAttribute("userName", name);
+		userSession.setAttribute("userId", userId);
 		model.addAttribute("loginMessage", message );
 		
 		return "thankyou";
