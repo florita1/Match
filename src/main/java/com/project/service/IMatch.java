@@ -2,7 +2,7 @@ package com.project.service;
 
 import java.util.List;
 
-import com.project.model.Questions;
+import com.project.model.Answers;
 import com.project.model.User;
 
 public interface IMatch {
@@ -23,15 +23,18 @@ public interface IMatch {
 	public void editUser(User user);
 
 	// Method to get all users profiles
-	public List getAllUsers();
+	public List<User> getAllUsers();
+	
+	// Method that searches users with filters
+	public List<User> searchUsers(String ageRange, String gender);
 
 	// Method to add user answers to table
-	public void setAnswers(Questions userAnswers);
+	public void setAnswers(Answers userAnswers);
 
 	// Method to get a users answers
-	public List getAnswers(int id);
+	public List<Answers> getAnswers(User user);
 
 	// Method to get percentage for users answers
-	public int getPercentage(List answers);
+	public int getPercentage(List<String> answers);
 
 }

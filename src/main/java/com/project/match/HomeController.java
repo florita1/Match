@@ -1,9 +1,6 @@
 package com.project.match;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,10 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.project.model.Questions;
+import com.project.model.Answers;
+import com.project.model.QuestionnaireTable;
 import com.project.model.User;
 import com.project.service.MatchImplAnswers;
-import com.project.service.IMatch;
 import com.project.service.MatchImplUsers;
 import com.project.service.Questionnaire;
 
@@ -43,6 +40,15 @@ public class HomeController {
 	
 	@Autowired
 	private MatchImplAnswers answer;
+	
+	@Autowired
+	private Questionnaire questions;
+	
+	@Autowired
+	private Answers ans;
+	
+	@Autowired
+	private User use;
 	
 	private int numOfQ;
 	
@@ -72,7 +78,11 @@ public class HomeController {
 		
 		System.out.println(fName+lName+uName+age+email+pass);
 		
-		User use = new User(fName,lName,uName,age,email,pass);
+		use.setFirst_name(fName);
+		use.setLast_name(lName);
+		use.setUser_name(uName);
+		use.setEmail(email);
+		use.setPassword(pass);
 		user.registerUser(use);
 		HttpSession userSession = request.getSession();
 		int userId = user.getId(uName);
@@ -86,10 +96,9 @@ public class HomeController {
 	@RequestMapping(value = "/questionnaire", method = RequestMethod.GET)
 	public String questionnaire(Model model) {
 		logger.info("User is answering questionnaire.");
-		Questionnaire ques = new Questionnaire();
-		List questions = ques.getQuestions();
-		numOfQ = questions.size();
-		model.addAttribute("questionList", questions);
+		List<QuestionnaireTable> quest = questions.getQuestions();
+		numOfQ = quest.size();
+		model.addAttribute("questionList", quest);
 		
 		return "questionnaire";
 	}
@@ -99,18 +108,15 @@ public class HomeController {
 		logger.info("User answered questionnaire.");
 		HttpSession userSession = request.getSession();
 		int userId = (int) userSession.getAttribute("userId");
-		List<String> answers = new ArrayList<String>();
+		List<QuestionnaireTable> quest = questions.getQuestions();
 		for(int x = 1; x <= numOfQ; x++) {
-			String answer = request.getParameter(Integer.toString(x));
-			answers.add(answer);
-//			if(answer.equals("y")) {
-//				answers.add(true);
-//			} else {
-//				answers.add(false);
-//			}
+			String a = request.getParameter(Integer.toString(x));
+			ans.setUser(use);
+			ans.setQuestion(quest.get(x-1));
+			ans.setAnswer(a);
+			answer.setAnswers(ans);
 		}
-		Questions q = new Questions(answers,userId);
-		answer.setAnswers(q);
+		
 		return "submitAnswers";
 	}
 	
@@ -119,13 +125,25 @@ public class HomeController {
 		logger.info("User is at their profile.");
 		HttpSession userSession = request.getSession();
 		int userId = (int) userSession.getAttribute("userId");
-		List answers = answer.getAnswers(userId);
 		User userInfo = user.getUser(userId);
-		String fName = userInfo.getFirst_name();
-		String lName = userInfo.getLast_name();
-		int age = userInfo.getAge();
-		model.addAttribute("userInfo", fName+lName+age);
+		List<Answers> answers = answer.getAnswers(userInfo);
+		
+		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("answerList", answers);
+		model.addAttribute("method","get");
+		return "profile";
+	}
+	
+	@RequestMapping(value = "/profile", method = RequestMethod.POST)
+	public String viewSelectedUserProfile(Model model, HttpServletRequest request) {
+		logger.info("User selected a profile to view.");
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		User userInfo = user.getUser(userId);
+		List<Answers> answers = answer.getAnswers(userInfo);
+		
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("answerList", answers);
+		model.addAttribute("method","post");
 		return "profile";
 	}
 	
@@ -156,7 +174,7 @@ public class HomeController {
 		String message = "";
 		if(passDB.equals(pass)) {
 			message = "Thank you for logging in "+name+".<br> "
-					+ "You can go to your profile <a href='/match/profile'> here</a>.";
+					+ "please answer this questionnaire <a href='/match/questionnaire'>here</a>.";
 		} else {
 			message = "Login failed. Please try logging in again <a href='/match/login'> here</a>.";
 		}
@@ -166,5 +184,32 @@ public class HomeController {
 		model.addAttribute("loginMessage", message );
 		
 		return "thankyou";
+	}
+	
+	@RequestMapping(value = "/allUsers", method = RequestMethod.GET)
+	public String viewAllUsers(Model model) {
+		logger.info("User is viewing all users.");
+		List<User> users = user.getAllUsers();
+		model.addAttribute("userList", users);
+		
+		return "allUsers";
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public String search(Model model,HttpServletRequest request) {
+		logger.info("User is setting search options.");
+		
+		return "search";
+	}
+	
+	@RequestMapping(value = "/searchUsers", method = RequestMethod.POST)
+	public String searchUsers(Model model,HttpServletRequest request) {
+		logger.info("User is viewing search results.");
+		String ageRange = request.getParameter("age");
+		String gender = request.getParameter("gender");
+		List<User> selectedUsers = user.searchUsers(ageRange, gender);
+		
+		model.addAttribute("userList", selectedUsers);
+		return "searchUsers";
 	}
 }

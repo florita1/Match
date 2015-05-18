@@ -23,6 +23,9 @@
 	
 	<beans:bean id="user" class="com.project.service.MatchImplUsers"/>
 	<beans:bean id="answer" class="com.project.service.MatchImplAnswers"/>
+	<beans:bean id="questionnaire" class="com.project.service.Questionnaire"/>
+	<beans:bean id="users" class="com.project.model.User"/>
+	<beans:bean id="answers" class="com.project.model.Answers"/>
 	<!-- <beans:bean id="answers" class="com.project.model.Questions"/> -->
 	
 	<context:component-scan base-package="com.project.match" />

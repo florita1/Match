@@ -10,9 +10,8 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
-import com.project.model.Questions;
+import com.project.model.Answers;
 import com.project.model.User;
 
 @Repository
@@ -90,28 +89,52 @@ public class MatchImplUsers implements IMatch {
 		session.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List getAllUsers() {
+	public List<User> getAllUsers() {
 		Session session = factory.openSession();
-		List users = session.createQuery("FROM User").list();
+		List<User> users = session.createQuery("FROM User").list();
+		return users;
+	}
+	
+	@Override
+	public List<User> searchUsers(String ageRange, String gender) {
+		int max = 100;
+		int min = 0;
+		if(ageRange.equals("a1")) {
+			max = 23; min = 20;
+		} else if(ageRange.equals("a2")) {
+			max = 27; min = 24;
+		} else {
+			max = 31; min = 28;
+		}	
+		Session session = factory.openSession();
+		String hql = "FROM User WHERE age between :min and :max";
+		Query query = session.createQuery(hql);
+		query.setParameter("min",min);
+		query.setParameter("max",max);
+		List<User> users = query.list();
+		session.close();
+		
 		return users;
 	}
 
 	@Override
-	public void setAnswers(Questions userAnswers) {
+	public void setAnswers(Answers userAnswers) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List getAnswers(int id) {
+	public List<Answers> getAnswers(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int getPercentage(List answers) {
+	public int getPercentage(List<String> answers) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 }

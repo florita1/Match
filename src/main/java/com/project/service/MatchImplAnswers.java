@@ -2,6 +2,7 @@ package com.project.service;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,7 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import com.project.model.Questions;
+import com.project.model.Answers;
 import com.project.model.User;
 
 public class MatchImplAnswers implements IMatch{
@@ -28,11 +29,11 @@ public class MatchImplAnswers implements IMatch{
 	      }
 	}
 
-	public int getPercentage(List setAnswers) {
-		List<Boolean> answers = setAnswers;
+	public int getPercentage(List<String> setAnswers) {
+		List<String> answers = setAnswers;
 		int yes = 0;
-		for(boolean answer : answers) {
-			if(answer) {
+		for(String answer : answers) {
+			if(answer.equals("Yes")) {
 				yes += 1;
 			}
 		}
@@ -43,21 +44,25 @@ public class MatchImplAnswers implements IMatch{
 		return percentage;
 	}
 
-	public List getAnswers(int userId) {
+	@SuppressWarnings("unchecked")
+	public List<Answers> getAnswers(User user) {
 		Session session = factory.openSession();
-		String hql = "FROM Questions WHERE id = :uid";
+		//Criteria c = session.createCriteria(Answers.class);
+		//List<Answers> answers = c.list();
+		//Questions answers = (Questions) session.get(Questions.class);
+		String hql = "FROM Answers WHERE user_id = :uid";
 		Query query = session.createQuery(hql);
-		query.setParameter("uid", userId);
-		List answers = query.list();
+		query.setParameter("uid", user);
+		List<Answers> answers = query.list();
 		session.close();
 		return answers;
 	}
 	
 	@Override
-	public void setAnswers(Questions answers) {
+	public void setAnswers(Answers answer) {
 		Session session = factory.openSession();
 		Transaction tx = session.beginTransaction();
-		session.save(answers);
+		session.save(answer);
 		tx.commit();
 		session.close();
 		
@@ -81,7 +86,7 @@ public class MatchImplAnswers implements IMatch{
 	}
 
 	@Override
-	public List getAllUsers() {
+	public List<User> getAllUsers() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -96,6 +101,12 @@ public class MatchImplAnswers implements IMatch{
 	public int getId(String name) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public List<User> searchUsers(String ageRange, String gender) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

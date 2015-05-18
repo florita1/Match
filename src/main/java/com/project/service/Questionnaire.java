@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import com.project.model.QuestionnaireTable;
+
 public class Questionnaire {
 	
 private static SessionFactory factory;
@@ -23,9 +25,10 @@ private static SessionFactory factory;
 	      }
 	}
 	
-	public List getQuestions() {
+	@SuppressWarnings("unchecked")
+	public List<QuestionnaireTable> getQuestions() {
 		Session session = factory.openSession();
-		List questions = session.createQuery("FROM QuestionnaireTable").list();
+		List<QuestionnaireTable> questions = session.createQuery("FROM QuestionnaireTable").list();
 		session.close();
 		return questions;
 	}

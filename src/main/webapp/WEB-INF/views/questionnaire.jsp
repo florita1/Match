@@ -19,8 +19,8 @@
 			<form action="/match/submitAnswers" method="POST">
 				<c:forEach items="${questionList}" var="QuestionnaireTable">
 					<strong>${QuestionnaireTable.id}</strong>${QuestionnaireTable.question}
-				<input type="radio" name="${QuestionnaireTable.id}" value="y">Yes
-				<input type="radio" name="${QuestionnaireTable.id}" value="n">No
+				<input type="radio" name="${QuestionnaireTable.id}" value="Yes">Yes
+				<input type="radio" name="${QuestionnaireTable.id}" value="No">No
 				<br>
 				</c:forEach>
 				<input type="submit">

@@ -14,7 +14,7 @@
 
 		<div id="right">
 
-			<h2>Questionnaire</h2>
+			<h2>Register</h2>
 			<br>
 
 			<p>

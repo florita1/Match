@@ -2,29 +2,28 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Match Central</title>
+<title>Questionnaire</title>
 <link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Profile</h1>
+			<h1>Match</h1>
 		</div>
 
 		<div id="right">
 
-			<h2>Information for ${userInfo.first_name}.</h2>
+			<h2>Search Results</h2>
 			<br>
-			<% if(request.getAttribute("method").equals("get")) { %>
-			<p>Click <a href="/match/allUsers">here</a> to take a quick look at all potential roomates.</p> <br>
-			<p>Or click <a href="/match/search">here</a> to get paired up with your future roomate.</p>
-			<br>
-			<%} %>
-
-			<c:forEach items="${answerList}" var="currentAnswer">
-				<p>${currentAnswer.question.question}: <strong>${currentAnswer.answer}</strong></p>
-			</c:forEach>
+			<form action="/match/profile" method="POST">
+				<c:forEach items="${userList}" var="user">
+					<p>Name: ${user.first_name} ${user.last_name} Age: ${user.age}
+						<input type="radio" name="userId" value="${user.id}"/>Select
+						<input type="submit" value="View Profile"/>
+					<br>
+				</c:forEach>
+			</form>
 			<div id="left">
 				<h2>Navigation</h2>
 				<ul>

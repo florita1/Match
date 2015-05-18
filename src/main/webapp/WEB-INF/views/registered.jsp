@@ -17,8 +17,8 @@
 			<h2>Registered!</h2>
 			<br>
 			<p>
-				Thank you for registering, please answers this questionnaire <a
-					href="/match/questionnaire">here</a>.
+				Thank you for registering, please login <a
+					href="/match/login">here</a>.
 			</p>
 			<div id="left">
 				<h2>Navigation</h2>
