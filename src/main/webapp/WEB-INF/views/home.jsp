@@ -24,29 +24,22 @@
 			shekels, just because they're lousy cooks, er, well, this would do!
 			Well, I felt that it's absobloodylootely unfair to keep it what are
 			you waiting for? Get to work with fun. Party to find who s going to
-			be your next roommate! <br> <br>
-			<!--Ok i kinda took a shortcut here to center the image. Will fix in final-->
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img
-				src="/resources/gray.jpg" alt="Example pic" style="border: 2px solid #ccc;"
-				height="250" width="450" /> <br>
+			be your next roommate!
 		</div>
 
 
 		<div id="left">
 			<h2>Navigation</h2>
-			<ul>
-				<li><a href="/match">Home</a></li>
-				<li><a href="/match/login">Login</a></li>
-				<li><a href="/match/profile">Profile</a></li>
-				<li><a href="#">Matches</a></li>
-				<li><a href="#">Search</a></li>
-				<li><a href="#">Contact</a></li>
-			</ul>
+				<ul>
+					<li><a href="/match">Home</a></li>
+					<li><a href="/match/login">Login</a></li>
+					<li><a href="/match/profile">Profile</a></li>
+					<li><a href="/match/search">Search</a></li>
+				</ul>
 		</div>
 
-		<div style="clear: both;"></div>
 		<div id="footer">
-			<a> footer</a>
+			<p> Copyright &copy; 2015 <a href="/match">Match.com</a> - All Rights Reserved</p>
 		</div>
 
 	</div>

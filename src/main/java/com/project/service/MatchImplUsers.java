@@ -124,7 +124,7 @@ public class MatchImplUsers implements IMatch {
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
-			session.update("User", user);
+			session.update(user);
 			tx.commit();
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
