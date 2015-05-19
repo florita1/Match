@@ -27,6 +27,9 @@ public interface IMatch {
 	
 	// Method that searches users with filters
 	public List<User> searchUsers(String ageRange, String gender);
+	
+	// Method to edit user answers
+	public void editAnswers(Answers answer);
 
 	// Method to add user answers to table
 	public void setAnswers(Answers userAnswers);
@@ -35,6 +38,6 @@ public interface IMatch {
 	public List<Answers> getAnswers(User user);
 
 	// Method to get percentage for users answers
-	public int getPercentage(List<String> answers);
+	public int getPercentage(List<Answers> userAnswers, List<Answers> matchAnswers);
 
 }

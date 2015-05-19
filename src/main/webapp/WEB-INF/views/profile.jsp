@@ -18,7 +18,8 @@
 			<br>
 			<% if(request.getAttribute("method").equals("get")) { %>
 			<p>Click <a href="/match/allUsers">here</a> to take a quick look at all potential roomates.</p> <br>
-			<p>Or click <a href="/match/search">here</a> to get paired up with your future roomate.</p>
+			<p>Or click <a href="/match/search">here</a> to get paired up with your future roomate.</p> <br>
+			<p> Click <a href="/match/edit">here</a> to edit your profile</p>
 			<br>
 			<%} %>
 

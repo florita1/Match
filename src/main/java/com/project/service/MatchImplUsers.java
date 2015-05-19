@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,9 +17,9 @@ import com.project.model.User;
 
 @Repository
 public class MatchImplUsers implements IMatch {
-	
+
 	private static SessionFactory factory;
-	
+
 	public MatchImplUsers() {
 		try{
 			Configuration configuration = new Configuration().configure();
@@ -34,69 +35,125 @@ public class MatchImplUsers implements IMatch {
 	@Override
 	public void registerUser(User user) {
 		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(user);
-		tx.commit();
-		session.close();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+			session.save(user);
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
 	}
-	
+
 	@Override
 	public int getId(String name) {
 		Session session = factory.openSession();
-		String hql = "SELECT id FROM User WHERE user_name= :name";
-		Query query = session.createQuery(hql);
-		query.setParameter("name",name);
-		List pass = query.list();
+		Transaction tx = null;
 		int id = 0;
-		for (Iterator iterator = pass.iterator(); iterator.hasNext();){
-			id = (int) iterator.next();
+		try{
+			tx = session.beginTransaction();
+			String hql = "SELECT id FROM User WHERE user_name= :name";
+			Query query = session.createQuery(hql);
+			query.setParameter("name",name);
+			List pass = query.list();
+			id = 0;
+			for (Iterator iterator = pass.iterator(); iterator.hasNext();){
+				id = (int) iterator.next();
+			}
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
 		}
-		session.close();
 		
 		return id;
 	}
-	
+
 	@Override
 	public String getPassword(String name) {
 		Session session = factory.openSession();
-		String hql = "SELECT password FROM User WHERE user_name= :name";
-		Query query = session.createQuery(hql);
-		query.setParameter("name",name);
-		List pass = query.list();
-		String passWord = "";
-		for (Iterator iterator = pass.iterator(); iterator.hasNext();){
-			passWord = (String) iterator.next();
+		Transaction tx = null;
+		String passWord = null;
+		try{
+			tx = session.beginTransaction();
+			String hql = "SELECT password FROM User WHERE user_name= :name";
+			Query query = session.createQuery(hql);
+			query.setParameter("name",name);
+			List pass = query.list();
+			passWord = "";
+			for (Iterator iterator = pass.iterator(); iterator.hasNext();){
+				passWord = (String) iterator.next();
+			}
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
 		}
-		session.close();
-		
+
 		return passWord;
 	}
 
 	@Override
 	public User getUser(int id) {
 		Session session = factory.openSession();
-		User user = (User) session.get(User.class, id);
-		session.close();
+		Transaction tx = null;
+		User user = null;
+		try{
+			tx = session.beginTransaction();
+			user = (User) session.get(User.class, id);
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
 		return user;
 	}
 
 	@Override
 	public void editUser(User user) {
 		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.update(user);
-		tx.commit();
-		session.close();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+			session.update("User", user);
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getAllUsers() {
 		Session session = factory.openSession();
-		List<User> users = session.createQuery("FROM User").list();
+		Transaction tx = null;
+		List<User> users = null;
+		try{
+			tx = session.beginTransaction();
+			users = session.createQuery("FROM User").list();
+
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
 		return users;
 	}
-	
+
 	@Override
 	public List<User> searchUsers(String ageRange, String gender) {
 		int max = 100;
@@ -109,20 +166,31 @@ public class MatchImplUsers implements IMatch {
 			max = 31; min = 28;
 		}	
 		Session session = factory.openSession();
-		String hql = "FROM User WHERE age between :min and :max";
-		Query query = session.createQuery(hql);
-		query.setParameter("min",min);
-		query.setParameter("max",max);
-		List<User> users = query.list();
-		session.close();
-		
+		Transaction tx = null;
+		List<User> users = null;
+		try{
+			tx = session.beginTransaction();
+			String hql = "FROM User WHERE gender= :gender and age between :min and :max";
+			Query query = session.createQuery(hql);
+			query.setParameter("gender", gender);
+			query.setParameter("min", min);
+			query.setParameter("max", max);
+			users = query.list();
+			tx.commit();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+			e.printStackTrace(); 
+		}finally {
+			session.close(); 
+		}
+
 		return users;
 	}
 
 	@Override
 	public void setAnswers(Answers userAnswers) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -132,9 +200,15 @@ public class MatchImplUsers implements IMatch {
 	}
 
 	@Override
-	public int getPercentage(List<String> answers) {
+	public int getPercentage(List<Answers> userAnswers, List<Answers> matchAnswers) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void editAnswers(Answers answer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

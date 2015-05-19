@@ -73,6 +73,7 @@ public class HomeController {
 		String lName = request.getParameter("lastName");
 		String uName = request.getParameter("userName");
 		int age = Integer.parseInt(request.getParameter("age"));
+		String gender = request.getParameter("gender");
 		String email = request.getParameter("email");
 		String pass = request.getParameter("passWord");
 		
@@ -81,6 +82,8 @@ public class HomeController {
 		use.setFirst_name(fName);
 		use.setLast_name(lName);
 		use.setUser_name(uName);
+		use.setAge(age);
+		use.setGender(gender);
 		use.setEmail(email);
 		use.setPassword(pass);
 		user.registerUser(use);
@@ -106,8 +109,6 @@ public class HomeController {
 	@RequestMapping(value = "/submitAnswers", method = RequestMethod.POST)
 	public String submitQuestionnaire(Model model, HttpServletRequest request) {
 		logger.info("User answered questionnaire.");
-		HttpSession userSession = request.getSession();
-		int userId = (int) userSession.getAttribute("userId");
 		List<QuestionnaireTable> quest = questions.getQuestions();
 		for(int x = 1; x <= numOfQ; x++) {
 			String a = request.getParameter(Integer.toString(x));
@@ -164,23 +165,22 @@ public class HomeController {
 			//user is logged in
 		}
 		
-		String id = userSession.getId();
-
 		String name = request.getParameter("userName");
 		String pass = request.getParameter("passWord");
 		
 		String passDB = user.getPassword(name);
-		
 		String message = "";
 		if(passDB.equals(pass)) {
 			message = "Thank you for logging in "+name+".<br> "
 					+ "please answer this questionnaire <a href='/match/questionnaire'>here</a>.";
+			int userId = user.getId(name);
+			use = user.getUser(userId);
+			userSession.setAttribute("userName", name);
+			userSession.setAttribute("userId", userId);
 		} else {
 			message = "Login failed. Please try logging in again <a href='/match/login'> here</a>.";
 		}
-		int userId = user.getId(name);
-		userSession.setAttribute("userName", name);
-		userSession.setAttribute("userId", userId);
+		
 		model.addAttribute("loginMessage", message );
 		
 		return "thankyou";
@@ -205,11 +205,58 @@ public class HomeController {
 	@RequestMapping(value = "/searchUsers", method = RequestMethod.POST)
 	public String searchUsers(Model model,HttpServletRequest request) {
 		logger.info("User is viewing search results.");
+		HttpSession userSession = request.getSession();
+		
 		String ageRange = request.getParameter("age");
 		String gender = request.getParameter("gender");
 		List<User> selectedUsers = user.searchUsers(ageRange, gender);
 		
+		int userId = (int) userSession.getAttribute("userId");
+		User userInfo = user.getUser(userId);
+		List<Answers> userAnswers = answer.getAnswers(userInfo);
+		for(User match : selectedUsers) {
+			List<Answers> matchAnswers = answer.getAnswers(match);
+			int percentage = answer.getPercentage(userAnswers, matchAnswers);
+			match.setPercentage(percentage);
+		}
 		model.addAttribute("userList", selectedUsers);
 		return "searchUsers";
+	}
+	
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String edit(Model model, HttpServletRequest request) {
+		logger.info("User is editing their profile.");
+		List<Answers> answers = answer.getAnswers(use);
+		numOfQ = answers.size();
+		model.addAttribute("userInfo", use);
+		model.addAttribute("userAnswers", answers);
+		return "edit";
+	}
+	
+	@RequestMapping(value = "/submitEdit", method = RequestMethod.POST)
+	public String submitEdit(Model model, HttpServletRequest request) {
+		logger.info("Edits to user profile are being submitted.");
+		String fName = request.getParameter("firstName");
+		String lName = request.getParameter("lastName");
+		int age = Integer.parseInt(request.getParameter("age"));
+		String email = request.getParameter("email");
+		System.out.println(fName+lName+age+email);
+		
+		use.setFirst_name(fName);
+		use.setLast_name(lName);
+		use.setAge(age);
+		use.setEmail(email);
+		user.editUser(use);
+
+		List<QuestionnaireTable> quest = questions.getQuestions();
+		for(int x = 1; x <= numOfQ; x++) {
+			String a = request.getParameter(Integer.toString(x));
+			ans.setUser(use);
+			ans.setQuestion(quest.get(x-1));
+			ans.setAnswer(a);
+			answer.editAnswers(ans);
+		}
+		
+		return "submitEdit";
 	}
 }

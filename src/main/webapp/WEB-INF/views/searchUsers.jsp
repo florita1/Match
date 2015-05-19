@@ -18,9 +18,9 @@
 			<br>
 			<form action="/match/profile" method="POST">
 				<c:forEach items="${userList}" var="user">
-					<p>Name: ${user.first_name} ${user.last_name} Age: ${user.age}
+					<p>Name: ${user.first_name} ${user.last_name} Age: ${user.age} Profile Match: ${user.percentage}%
 						<input type="radio" name="userId" value="${user.id}"/>Select
-						<input type="submit" value="View Profile"/>
+						<input type="submit" value="View Profile"/></p>
 					<br>
 				</c:forEach>
 			</form>

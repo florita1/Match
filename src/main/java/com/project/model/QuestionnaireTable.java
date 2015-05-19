@@ -10,12 +10,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Questionnaire2")
+@Table(name="Questionnaire")
 public class QuestionnaireTable {
 
 	@Id
 	@GeneratedValue
-	//@OneToMany(fetch = FetchType.EAGER, mappedBy = "Questionnaire2")
 	private int id;
 
 	@Column(name="Questions")

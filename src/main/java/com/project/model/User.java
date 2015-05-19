@@ -2,19 +2,16 @@ package com.project.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name="Users")
 public class User {
 
 	@Id
 	@GeneratedValue
-	//@OneToMany( fetch = FetchType.EAGER, mappedBy = "user")
 	private int id;
 	
 	@Column(name="user_name")
@@ -28,11 +25,16 @@ public class User {
 	
 	@Column(name="age")
 	private int age;
+	@Column(name="gender")
+	private String gender;
 	@Column(name="email")
 	private String email;  
 	@Column(name="password")
 	private String password;
-
+	
+	
+	private transient int percentage;
+	
 	public User() {}
 	public User(String fname, String lname, String uname, int age, String email, String pass) {
 		this.first_name = fname;
@@ -84,5 +86,17 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
+	public int getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(int percentage) {
+		this.percentage = percentage;
+	}
 }

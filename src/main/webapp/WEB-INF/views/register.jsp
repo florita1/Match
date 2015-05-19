@@ -45,6 +45,11 @@
 						</td>
 					</tr>
 					<tr>
+						<td>Gender: <input type="radio" name="gender" value="male">Male
+									<input type="radio" name="gender" value="female">Female
+						</td>
+					</tr>
+					<tr>
 						<td>Email: <input type="text" name="email">
 						</td>
 					</tr>
