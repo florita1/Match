@@ -18,12 +18,17 @@
 				<p>${loginMessage}</p>
 			<%} else {%>
 				<h2>Profile</h2>
-				<h2>Information for ${userInfo.first_name}.</h2>
 				<% if(request.getAttribute("method").equals("get")) { %>
-				<p>Click <a href="/match/allUsers">here</a> to take a quick look at all potential roommates.</p>
-				<p>Or click <a href="/match/search">here</a> to get paired up with your future roommate.</p>
-				<p> Click <a href="/match/edit">here</a> to edit your profile</p>
+				<table id="profile">
+					<tr>
+						<td><a href="/match/allUsers">View All Users</a></td>
+						<td><a href="/match/search">Search Profiles</a></td>
+						<td><a href="/match/edit">Edit Profile</a></td>
+						<td><a href="/match/logout">Logout</a></td>
+					</tr>
+				</table>
 				<%} %>
+				<h2>Information for ${userInfo.first_name}.</h2>
 				<ul>
 				<c:forEach items="${answerList}" var="currentAnswer">
 					<li>

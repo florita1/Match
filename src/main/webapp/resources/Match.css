@@ -49,7 +49,8 @@ a:hover {
 	padding: 5px 0 10px 30px;
 	color: #FFE788;
 }
- #left ul li a {
+
+#left ul li a {
  	text-transform: lowercase;
  }
  
@@ -91,6 +92,15 @@ a:hover {
 form {
 	margin-left: 11px;
 	padding: 5px;
+}
+
+#profile {
+	font-size: 13px;
+	text-transform: uppercase;
+	border-style: solid; 
+	border-width: 3px;
+	text-align: center;
+	padding: 8px;
 }
 
 table td {

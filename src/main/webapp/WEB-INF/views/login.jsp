@@ -15,8 +15,7 @@
 		<div id="right">
 
 			<h2>Login</h2>
-			<br>
-
+			<p>${logout}</p>
 			<form class="user" action="/match/thankyou" method="POST">
 				<table style="margin-left: 11px">
 					<tr>

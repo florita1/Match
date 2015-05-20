@@ -150,7 +150,7 @@ public class HomeController {
 		String message = "";
 		if(passDB.equals(pass)) {
 			message = "Thank you for logging in "+name+".<br> "
-					+ "please answer this questionnaire <a href='/match/questionnaire'>here</a>.";
+					+ "You are welcome to view your profile <a href='/match/profile'>here</a>.";
 			int userId = user.getId(name);
 			use = user.getUser(userId);
 			userSession.setMaxInactiveInterval(2*60);
@@ -165,5 +165,14 @@ public class HomeController {
 		model.addAttribute("loginMessage", message );
 		
 		return "thankyou";
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout( Model model, HttpServletRequest request) {
+		logger.info("User is logging out");
+		HttpSession userSession = request.getSession();
+		userSession.invalidate();
+		model.addAttribute("logout","Logout Sucesseful.");
+		return "login";
 	}
 }
