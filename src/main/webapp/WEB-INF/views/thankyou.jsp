@@ -2,18 +2,18 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Match Central</title>
+<title>Login</title>
 <link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">
-
+			<h2>Login Message</h2>
 			<h2>${loginMessage}</h2>
 			<br>
 		</div>

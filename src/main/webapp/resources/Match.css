@@ -88,13 +88,32 @@ a:hover {
 	text-decoration: none;
 }
 
+form {
+	margin-left: 11px;
+	padding: 5px;
+}
+
+table td {
+	padding-right: 40px;
+}
+
+dl dt {
+	text-transform: uppercase;
+	text-decoration: underline;
+}
+
+dl dd {
+	padding: 3px;
+	text-transform: lowercase;
+}
+
 #footer {
 	background: #2F2C2C;
 	font-size: 11px;
 	text-align: center;
-	position:fixed;
-	bottom:0;
-	width: 65%;
+	position: fixed;
+	bottom: 0;
+	width: 12%;
 	padding: 5px 0; 
 	border-style: solid;
 	border-width: 2px;

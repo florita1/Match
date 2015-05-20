@@ -2,14 +2,14 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Match Central</title>
+<title>Questionnaire</title>
 <link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">

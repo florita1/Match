@@ -2,14 +2,14 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Questionnaire</title>
+<title>Profile List</title>
 <link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">
@@ -17,16 +17,25 @@
 				<h2>Page Inaccessible</h2>
 				<p>${loginMessage}</p>
 			<%} else {%>
-				<h2>User List</h2>
-				<br>
-				<form action="/match/profile" method="POST">
+			<h2>Profile List</h2>
+			<form action="/match/profile" method="POST">
+				<table>
 					<c:forEach items="${userList}" var="user">
-						<p>Name: ${user.first_name} ${user.last_name} Age: ${user.age}
-							<input type="radio" name="userId" value="${user.id}"/>Select
-							<input type="submit" value="View Profile"/>
-						<br>
+						<tr>
+							<td>
+								<dl>
+									<dt>${user.first_name} ${user.last_name}</dt>
+									<dd>Age: ${user.age}</dd>
+									<dd>Gender: ${user.gender}</dd>
+								</dl>
+							</td>
+							<td><input type="radio" name="userId" value="${user.id}" />Select
+								<input type="submit" value="View Profile" />
+							</td>
+						</tr>
 					</c:forEach>
-				</form>
+				</table>
+			</form>
 			<%} %>
 		</div>
 		<div id="left">

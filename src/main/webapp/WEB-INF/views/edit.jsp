@@ -2,14 +2,14 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Questionnaire</title>
+<title>Edit Profile</title>
 <link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">
@@ -17,6 +17,7 @@
 				<h2>Page Inaccessible</h2>
 				<p>${loginMessage}</p>
 			<%} else {%>
+				<h2>Edit your Profile</h2>
 				<h2>Listed below is the information we have for you. Make necessary changes and submit.</h2>
 				<br>
 				<form action="/match/submitEdit" method="POST">
@@ -44,14 +45,20 @@
 							<td>Email: <input type="text" name="email" value="${userInfo.email}">
 							</td>
 						</tr>
-						<c:forEach items="${userAnswers}" var="answer">
 						<tr>
-							<td><strong>${answer.question.id}</strong>${answer.question.question}
-							<input type="radio" name="${answer.question.id}" value="Yes">Yes
-							<input type="radio" name="${answer.question.id}" value="No">No
-							Your Answer: ${answer.answer}</td>
+							<td>
+								<ul>
+								<c:forEach items="${userAnswers}" var="answer">
+									<li>${answer.question.id}) ${answer.question.question}</li>
+									<ul>
+										<li>Your Answer: ${answer.answer}</li>
+										<li> Change Answer: <input type="radio" name="${answer.question.id}" value="Yes">Yes
+															<input type="radio" name="${answer.question.id}" value="No">No </li>
+									</ul>
+								</c:forEach>
+								</ul>
+							</td>
 						</tr>
-						</c:forEach>
 					</table>
 					<input type="submit" value="Edit Profile">
 				</form>

@@ -52,6 +52,7 @@ public class AspectController {
 		model.addAttribute("userInfo", userInfo);
 		model.addAttribute("answerList", answers);
 		model.addAttribute("method","post");
+		model.addAttribute("Authenticated", "yes");
 		return "profile";
 	}
 	
@@ -97,9 +98,8 @@ public class AspectController {
 		String gender = request.getParameter("gender");
 		List<User> selectedUsers = user.searchUsers(ageRange, gender);
 		
-		int userId = (int) userSession.getAttribute("userId");
-		User userInfo = user.getUser(userId);
-		List<Answers> userAnswers = answer.getAnswers(userInfo);
+		use = (User) userSession.getAttribute("user");
+		List<Answers> userAnswers = answer.getAnswers(use);
 		for(User match : selectedUsers) {
 			List<Answers> matchAnswers = answer.getAnswers(match);
 			int percentage = answer.getPercentage(userAnswers, matchAnswers);
@@ -118,7 +118,8 @@ public class AspectController {
 			model.addAttribute("loginMessage", msg);
 			model.addAttribute("Authenticated", "no");
 		} else {
-			model.addAttribute("Authenticated", "no");
+			model.addAttribute("Authenticated", "yes");
+			use = (User) userSession.getAttribute("user");
 			List<Answers> answers = answer.getAnswers(use);
 			numOfQ = answers.size();
 			model.addAttribute("userInfo", use);

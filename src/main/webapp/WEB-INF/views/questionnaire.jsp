@@ -9,7 +9,7 @@
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">
@@ -17,13 +17,20 @@
 			<h2>Please answer this questionnaire.</h2>
 			<br>
 			<form action="/match/submitAnswers" method="POST">
+			<table>
 				<c:forEach items="${questionList}" var="QuestionnaireTable">
-					<strong>${QuestionnaireTable.id}</strong>${QuestionnaireTable.question}
-				<input type="radio" name="${QuestionnaireTable.id}" value="Yes">Yes
-				<input type="radio" name="${QuestionnaireTable.id}" value="No">No
-				<br>
+				<tr>
+					<td>
+						<strong>${QuestionnaireTable.id}</strong>) ${QuestionnaireTable.question}
+					</td>
+					<td>
+						<input type="radio" name="${QuestionnaireTable.id}" value="Yes">Yes
+						<input type="radio" name="${QuestionnaireTable.id}" value="No">No
+					</td>
+				</tr>
 				</c:forEach>
-				<input type="submit">
+			</table>
+			<input type="submit">
 			</form>
 		</div>
 		<div id="left">

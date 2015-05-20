@@ -2,14 +2,14 @@
 <%@ page session="false"%>
 <html>
 <head>
-<title>Match Central</title>
+<title>Register</title>
 <link href="<c:url value="/resources/Match.css" />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">
@@ -18,7 +18,7 @@
 			<br>
 			<p>
 				Thank you for registering, please take a moment to answer our
-				questionnaire <a href="/match/login">here</a>.
+				questionnaire <a href="/match/questionnaire">here</a>.
 			</p>
 		</div>
 		<div id="left">

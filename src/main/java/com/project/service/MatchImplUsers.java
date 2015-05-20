@@ -3,6 +3,7 @@ package com.project.service;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;

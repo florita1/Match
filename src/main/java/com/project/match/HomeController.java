@@ -155,6 +155,7 @@ public class HomeController {
 			use = user.getUser(userId);
 			userSession.setMaxInactiveInterval(2*60);
 			userSession.setAttribute("Authen", "yes");
+			userSession.setAttribute("user", use);
 			model.addAttribute("Authenticated", "yes");
 		} else {
 			message = "Login failed. Please try logging in again <a href='/match/login'> here</a>.";

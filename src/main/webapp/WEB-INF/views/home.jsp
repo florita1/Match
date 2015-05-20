@@ -9,22 +9,23 @@
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match</h1>
+			<h1>Match.com</h1>
 		</div>
 
 		<div id="right">
 
-			<h2>Find Your Next Roomate</h2>
-			If you're on the lookout for housing in Saint Louis, Missouri, then,
-			take a chance of it. What else would make roommating fun? Besides,
-			three types of housing, its interesting to know that they ve got
-			voting system to elect their representatives. Residence halls,
-			private room apartments and shared room apartments come along with
-			dining points too whoa! If someone is interested in saving their
-			shekels, just because they're lousy cooks, er, well, this would do!
-			Well, I felt that it's absobloodylootely unfair to keep it what are
-			you waiting for? Get to work with fun. Party to find who s going to
-			be your next roommate!
+			<h2>Find Your Next Roommate</h2>
+			Welcome to Match.com where you can find your next roommate.
+			We encourage you to create a profile and to start your search
+			TODAY! When you have created a profile, you are free to look at
+			the profiles of other people who are looking for their future
+			roommate, just like you! 
+			
+			Are you looking for a closer match? If so,
+			check out our advanced search were we have compared your profile
+			with that of our other clients.
+			
+			Have fun and explore!
 		</div>
 
 
@@ -41,8 +42,6 @@
 		<div id="footer">
 			<p> Copyright &copy; 2015 <a href="/match">Match.com</a> - All Rights Reserved</p>
 		</div>
-
 	</div>
-
 </body>
 </html>
