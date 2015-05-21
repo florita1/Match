@@ -9,7 +9,7 @@
 	<div id="wrap">
 
 		<div id="header">
-			<h1>Match.com</h1>
+			<h1>Roomies.com</h1>
 		</div>
 
 		<div id="right">
